@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const express = require("express");
 const PDFDocument = require("pdfkit");
-
+const { sendEmailNotification } = require("./emailService");
 const fs = require("fs");
 const app = express();
 
@@ -30,18 +30,39 @@ app.get("/api/leads", (req, res) => {
   });
 });
 
+// // Store leads in MongoDB
+// app.get("/api/store/leads", async (req, res) => {
+//   try {
+//     const data = fs.readFileSync("./data/leads.json", "utf-8");
+//     const leads = JSON.parse(data);
+//     await Lead.insertMany(leads); // Save leads to MongoDB
+//     res.json({ message: "Leads stored successfully" });
+//   } catch (error) {
+//     res.status(500).json({ message: "Error storing leads" });
+//   }
+// });
+
 // Store leads in MongoDB
 app.get("/api/store/leads", async (req, res) => {
   try {
     const data = fs.readFileSync("./data/leads.json", "utf-8");
     const leads = JSON.parse(data);
-    await Lead.insertMany(leads); // Save leads to MongoDB
+    await Lead.insertMany(leads);
+
+    //  email notification
+    await sendEmailNotification(
+      "Leads Stored Successfully",
+      "All leads have been stored in the database."
+    );
     res.json({ message: "Leads stored successfully" });
   } catch (error) {
+    await sendEmailNotification(
+      "Error Storing Leads",
+      "An error occurred while storing leads: " + error.message
+    );
     res.status(500).json({ message: "Error storing leads" });
   }
 });
-
 // Route to get campaigns data
 app.get("/api/campaigns", (req, res) => {
   fs.readFile("./data/campaigns.json", "utf-8", (err, data) => {
@@ -54,13 +75,46 @@ app.get("/api/campaigns", (req, res) => {
 });
 
 // Store campaigns in MongoDB
+// app.get("/api/store/campaigns", async (req, res) => {
+//   try {
+//     const data = fs.readFileSync("./data/campaigns.json", "utf-8");
+//     const campaigns = JSON.parse(data);
+//     await Campaign.insertMany(campaigns); // Save campaigns to MongoDB
+//     res.json({ message: "Campaigns stored successfully" });
+//   } catch (error) {
+//     res.status(500).json({ message: "Error storing campaigns" });
+//   }
+// });
+
+// Store campaigns in MongoDB with email notification for cost per lead > $5
 app.get("/api/store/campaigns", async (req, res) => {
   try {
     const data = fs.readFileSync("./data/campaigns.json", "utf-8");
     const campaigns = JSON.parse(data);
     await Campaign.insertMany(campaigns); // Save campaigns to MongoDB
+
+    // Check cost per lead for each campaign
+    campaigns.forEach(async (campaign) => {
+      const costPerLead = campaign.cost / campaign.leads_generated;
+      if (costPerLead > 5) {
+        // Send email notification if cost per lead exceeds $5
+        await sendEmailNotification(
+          "High Cost per Lead Alert",
+          `Campaign "${
+            campaign.name
+          }" has a cost per lead of $${costPerLead.toFixed(
+            2
+          )}, which exceeds the $5 threshold.`
+        );
+      }
+    });
+
     res.json({ message: "Campaigns stored successfully" });
   } catch (error) {
+    await sendEmailNotification(
+      "Error Storing Campaigns",
+      "An error occurred while storing campaigns: " + error.message
+    );
     res.status(500).json({ message: "Error storing campaigns" });
   }
 });
