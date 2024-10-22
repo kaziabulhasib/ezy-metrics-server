@@ -1,0 +1,17 @@
+[
+    {
+      "campaign_id": "1",
+      "name": "Facebook Ads",
+      "platform": "Facebook",
+      "leads_generated": 100,
+      "cost": 500
+    },
+    {
+      "campaign_id": "2",
+      "name": "Google Ads",
+      "platform": "Google",
+      "leads_generated": 50,
+      "cost": 300
+    }
+  ]
+  
