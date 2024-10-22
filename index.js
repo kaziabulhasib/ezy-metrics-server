@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const express = require("express");
+// const PDFDocument = require("pdfkit");
+
 const fs = require("fs");
 const app = express();
 
@@ -11,7 +13,7 @@ const Campaign = require("./models/Campaign");
 // MongoDB connection
 mongoose
   .connect(
-    "mongodb+srv://ezymetricsUser:f8s06nzLqkQPOiqw@cluster0.ggulbwq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+    "mongodb+srv://ezymetricsUser:f8s06nzLqkQPOiqw@cluster0.ggulbwq.mongodb.net/ezymetDb?retryWrites=true&w=majority&appName=Cluster0",
     {
       autoIndex: true,
     }
