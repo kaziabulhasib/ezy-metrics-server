@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 const express = require("express");
 // const PDFDocument = require("pdfkit");
 
@@ -8,16 +9,13 @@ const app = express();
 const Lead = require("./models/Lead");
 const Campaign = require("./models/Campaign");
 
-// const connectionString = process.env.DB_STRING;
-// console.log(process.env.DB_STRING);
+const connectionString = process.env.DB_STRING;
+console.log(process.env.DB_STRING);
 // MongoDB connection
 mongoose
-  .connect(
-    "mongodb+srv://ezymetricsUser:f8s06nzLqkQPOiqw@cluster0.ggulbwq.mongodb.net/ezymetDb?retryWrites=true&w=majority&appName=Cluster0",
-    {
-      autoIndex: true,
-    }
-  )
+  .connect(connectionString, {
+    autoIndex: true,
+  })
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error: ", err));
 
