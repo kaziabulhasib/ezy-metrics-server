@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 const express = require("express");
-// const PDFDocument = require("pdfkit");
+const PDFDocument = require("pdfkit");
 
 const fs = require("fs");
 const app = express();
@@ -62,6 +62,40 @@ app.get("/api/store/campaigns", async (req, res) => {
     res.json({ message: "Campaigns stored successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error storing campaigns" });
+  }
+});
+
+// PDF report endpoint
+app.get("/api/reports/pdf", async (req, res) => {
+  try {
+    const leads = await Lead.find({});
+    const campaigns = await Campaign.find({});
+
+    const doc = new PDFDocument();
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", 'attachment; filename="report.pdf"');
+    doc.pipe(res);
+
+    doc.fontSize(16).text("Campaign Performance Report", { align: "center" });
+    doc.moveDown();
+
+    campaigns.forEach((campaign) => {
+      doc.fontSize(12).text(`Campaign Name: ${campaign.name}`);
+      doc.text(`Platform: ${campaign.platform}`);
+      doc.text(`Leads Generated: ${campaign.leads_generated}`);
+      doc.text(`Cost: $${campaign.cost}`);
+      doc.text(
+        `Cost per Lead: $${(campaign.cost / campaign.leads_generated).toFixed(
+          2
+        )}`
+      );
+      doc.moveDown();
+    });
+
+    doc.end();
+  } catch (error) {
+    console.error("Error generating PDF:", error);
+    res.status(500).send("Error generating report");
   }
 });
 
