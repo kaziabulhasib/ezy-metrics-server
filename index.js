@@ -19,7 +19,7 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error: ", err));
 
-// Route to get leads data
+//  leads data route
 app.get("/api/leads", (req, res) => {
   fs.readFile("./data/leads.json", "utf-8", (err, data) => {
     if (err) {
@@ -29,18 +29,6 @@ app.get("/api/leads", (req, res) => {
     res.json(leads);
   });
 });
-
-// // Store leads in MongoDB
-// app.get("/api/store/leads", async (req, res) => {
-//   try {
-//     const data = fs.readFileSync("./data/leads.json", "utf-8");
-//     const leads = JSON.parse(data);
-//     await Lead.insertMany(leads); // Save leads to MongoDB
-//     res.json({ message: "Leads stored successfully" });
-//   } catch (error) {
-//     res.status(500).json({ message: "Error storing leads" });
-//   }
-// });
 
 // Store leads in MongoDB
 app.get("/api/store/leads", async (req, res) => {
@@ -80,11 +68,11 @@ app.get("/api/store/campaigns", async (req, res) => {
     const campaigns = JSON.parse(data);
     await Campaign.insertMany(campaigns); // Save campaigns to MongoDB
 
-    // Check cost per lead for each campaign
+    //  cost per lead for each campaign
     campaigns.forEach(async (campaign) => {
       const costPerLead = campaign.cost / campaign.leads_generated;
       if (costPerLead > 5) {
-        // Send email notification if cost per lead exceeds $5
+        //  email notification for  lead exceeds
         await sendEmailNotification(
           "High Cost per Lead Alert",
           `Campaign "${
@@ -106,7 +94,7 @@ app.get("/api/store/campaigns", async (req, res) => {
   }
 });
 
-// PDF report endpoint
+// PDF report route
 app.get("/api/reports/pdf", async (req, res) => {
   try {
     const leads = await Lead.find({});
@@ -144,7 +132,6 @@ app.get("/", (req, res) => {
   res.send("ezymetrics is running .......");
 });
 
-// Start server
 app.listen(3000, () => {
   console.log("Server running on port 3000");
 });
