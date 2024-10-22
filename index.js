@@ -74,19 +74,6 @@ app.get("/api/campaigns", (req, res) => {
   });
 });
 
-// Store campaigns in MongoDB
-// app.get("/api/store/campaigns", async (req, res) => {
-//   try {
-//     const data = fs.readFileSync("./data/campaigns.json", "utf-8");
-//     const campaigns = JSON.parse(data);
-//     await Campaign.insertMany(campaigns); // Save campaigns to MongoDB
-//     res.json({ message: "Campaigns stored successfully" });
-//   } catch (error) {
-//     res.status(500).json({ message: "Error storing campaigns" });
-//   }
-// });
-
-// Store campaigns in MongoDB with email notification for cost per lead > $5
 app.get("/api/store/campaigns", async (req, res) => {
   try {
     const data = fs.readFileSync("./data/campaigns.json", "utf-8");

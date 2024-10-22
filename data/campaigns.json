@@ -1,17 +1,107 @@
 [
-    {
-      "campaign_id": "1",
-      "name": "Facebook Ads",
-      "platform": "Facebook",
-      "leads_generated": 100,
-      "cost": 500
-    },
-    {
-      "campaign_id": "2",
-      "name": "Google Ads",
-      "platform": "Google",
-      "leads_generated": 50,
-      "cost": 300
-    }
-  ]
-  
+  {
+    "campaign_id": "1",
+    "name": "Facebook Ads",
+    "platform": "Facebook",
+    "leads_generated": 100,
+    "cost": 500
+  },
+  {
+    "campaign_id": "2",
+    "name": "Google Ads",
+    "platform": "Google",
+    "leads_generated": 50,
+    "cost": 300
+  },
+  {
+    "campaign_id": "3",
+    "name": "Instagram Ads",
+    "platform": "Instagram",
+    "leads_generated": 120,
+    "cost": 600
+  },
+  {
+    "campaign_id": "4",
+    "name": "LinkedIn Ads",
+    "platform": "LinkedIn",
+    "leads_generated": 80,
+    "cost": 400
+  },
+  {
+    "campaign_id": "5",
+    "name": "Twitter Ads",
+    "platform": "Twitter",
+    "leads_generated": 90,
+    "cost": 450
+  },
+  {
+    "campaign_id": "6",
+    "name": "YouTube Ads",
+    "platform": "YouTube",
+    "leads_generated": 150,
+    "cost": 800
+  },
+  {
+    "campaign_id": "7",
+    "name": "Snapchat Ads",
+    "platform": "Snapchat",
+    "leads_generated": 70,
+    "cost": 350
+  },
+  {
+    "campaign_id": "8",
+    "name": "TikTok Ads",
+    "platform": "TikTok",
+    "leads_generated": 200,
+    "cost": 1000
+  },
+  {
+    "campaign_id": "9",
+    "name": "Pinterest Ads",
+    "platform": "Pinterest",
+    "leads_generated": 60,
+    "cost": 280
+  },
+  {
+    "campaign_id": "10",
+    "name": "Reddit Ads",
+    "platform": "Reddit",
+    "leads_generated": 110,
+    "cost": 550
+  },
+  {
+    "campaign_id": "11",
+    "name": "Quora Ads",
+    "platform": "Quora",
+    "leads_generated": 65,
+    "cost": 320
+  },
+  {
+    "campaign_id": "12",
+    "name": "Bing Ads",
+    "platform": "Bing",
+    "leads_generated": 40,
+    "cost": 200
+  },
+  {
+    "campaign_id": "13",
+    "name": "Yahoo Ads",
+    "platform": "Yahoo",
+    "leads_generated": 45,
+    "cost": 230
+  },
+  {
+    "campaign_id": "14",
+    "name": "Amazon Ads",
+    "platform": "Amazon",
+    "leads_generated": 130,
+    "cost": 700
+  },
+  {
+    "campaign_id": "15",
+    "name": "Microsoft Ads",
+    "platform": "Microsoft",
+    "leads_generated": 95,
+    "cost": 480
+  }
+]
