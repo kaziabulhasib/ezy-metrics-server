@@ -73,6 +73,31 @@ npm run dev
 
 - **GET /api/reports/pdf**: Generate and download a PDF report of campaigns and leads.
 
-### Email Notifications
+## Email Notifications
 
-- Receive alerts for specific conditions such as when storing leads, high cost per lead.
+If you want to receive email updates, you need to change the email address in the `email.js` file.
+
+Locate the following line in the `email.js` file:
+
+```javascript
+to: "hasibkazi420@gmail.com",
+d.
+```
+
+Here’s the updated section for your README file, including instructions on how to change the email address for notifications:
+
+md
+Copy code
+
+## Email Notifications
+
+If you want to receive email updates, you need to change the email address in the `email.js` file.
+
+Locate the following line in the `email.js` file:
+
+```javascript
+to: "hasibkazi420@gmail.com",
+
+```
+
+Replace "hasibkazi420@gmail.com" with your desired email address.
