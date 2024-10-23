@@ -4,7 +4,7 @@ const { sendEmailNotification } = require("../emailService");
 const Lead = require("../models/Lead");
 const router = express.Router();
 
-// Leads data route
+// data route
 router.get("/", (req, res) => {
   fs.readFile("./data/leads.json", "utf-8", (err, data) => {
     if (err) {
@@ -15,20 +15,31 @@ router.get("/", (req, res) => {
   });
 });
 
-// Store leads in MongoDB
+// Store leads in db
 router.post("/store", async (req, res) => {
   try {
     const data = fs.readFileSync("./data/leads.json", "utf-8");
-    const leads = JSON.parse(data); // Parse the JSON data
+    const leads = JSON.parse(data);
 
-    await Lead.insertMany(leads); // Store leads in the database
+    const existingLeads = await Lead.find({});
 
-    // Email notification
-    await sendEmailNotification(
-      "Leads Stored Successfully",
-      "All leads have been stored in the database."
+    const newLeads = leads.filter(
+      (lead) =>
+        !existingLeads.some((existingLead) => existingLead.email === lead.email)
     );
-    res.json({ message: "Leads stored successfully" });
+
+    if (newLeads.length > 0) {
+      await Lead.insertMany(newLeads);
+
+      await sendEmailNotification(
+        "Leads Stored Successfully",
+        `${newLeads.length} new lead(s) have been stored in the database.`
+      );
+
+      res.json({ message: "New leads stored successfully", newLeads });
+    } else {
+      res.json({ message: "No new leads to store" });
+    }
   } catch (error) {
     await sendEmailNotification(
       "Error Storing Leads",

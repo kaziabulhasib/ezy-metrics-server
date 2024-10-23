@@ -16,31 +16,49 @@ router.get("/", (req, res) => {
   });
 });
 
-// Store campaigns in MongoDB
+// Store campaigns in MongoDB only if there is new data
 router.post("/store", async (req, res) => {
   try {
+    // Read the campaigns from the JSON file
     const data = fs.readFileSync("./data/campaigns.json", "utf-8");
-    const campaigns = JSON.parse(data); // Parse the JSON data
+    const campaigns = JSON.parse(data);
 
-    await Campaign.insertMany(campaigns); // Store campaigns in the database
+    // Find all existing campaigns in MongoDB
+    const existingCampaigns = await Campaign.find({});
 
-    // Cost per lead for each campaign
-    campaigns.forEach(async (campaign) => {
-      const costPerLead = campaign.cost / campaign.leads_generated;
-      if (costPerLead > 5) {
-        // Email notification for lead exceeds
-        await sendEmailNotification(
-          "High Cost per Lead Alert",
-          `Campaign "${
-            campaign.name
-          }" has a cost per lead of $${costPerLead.toFixed(
-            2
-          )}, which exceeds the $5 threshold.`
-        );
-      }
-    });
+    // Filter out campaigns that are already in the database
+    const newCampaigns = campaigns.filter(
+      (campaign) =>
+        !existingCampaigns.some((existing) => existing.name === campaign.name)
+    );
 
-    res.json({ message: "Campaigns stored successfully" });
+    if (newCampaigns.length > 0) {
+      // Insert only the new campaigns into MongoDB
+      await Campaign.insertMany(newCampaigns);
+
+      // Cost per lead for each campaign
+      newCampaigns.forEach(async (campaign) => {
+        const costPerLead = campaign.cost / campaign.leads_generated;
+        if (costPerLead > 5) {
+          // Email notification for high cost per lead
+          await sendEmailNotification(
+            "High Cost per Lead Alert",
+            `Campaign "${
+              campaign.name
+            }" has a cost per lead of $${costPerLead.toFixed(
+              2
+            )}, which exceeds the $5 threshold.`
+          );
+        }
+      });
+
+      res.json({
+        message: `${newCampaigns.length} new campaign(s) stored successfully`,
+        newCampaigns,
+      });
+    } else {
+      res.json({ message: "No new campaigns to store" });
+    }
   } catch (error) {
     await sendEmailNotification(
       "Error Storing Campaigns",
