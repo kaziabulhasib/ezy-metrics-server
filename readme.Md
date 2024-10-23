@@ -65,10 +65,10 @@ npm run dev
 
 ### Endpoints
 
-- **GET /api/leads**: Fetch all leads from the database.
+- **GET /api/leads**: Fetch all leads from the `leads.json` file
 - **POST /api/leads/store**: Store leads in MongoDB from the `leads.json` file.
 
-- **GET /api/campaigns**: Fetch all campaigns from the database.
+- **GET /api/campaigns**: Fetch all campaigns from the `campaigns.json` file.
 - **POST /api/campaigns/store**: Store campaigns in MongoDB from the `campaigns.json` file.
 
 - **GET /api/reports/pdf**: Generate and download a PDF report of campaigns and leads.
