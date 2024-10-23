@@ -2,7 +2,7 @@
 
 ## Overview
 
-#### This API allows you to manage campaigns and leads by storing data from JSON files into a MongoDB database. It also generates PDF reports and sends email notifications based on specific conditions, such as a high cost per lead for campaigns.
+This API allows you to manage campaigns and leads by storing data from JSON files into a MongoDB database. It also generates PDF reports and sends email notifications based on specific conditions, such as a high cost per lead for campaigns.
 
 ## Features:
 
