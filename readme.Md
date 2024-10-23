@@ -81,22 +81,6 @@ Locate the following line in the `email.js` file:
 
 ```javascript
 to: "hasibkazi420@gmail.com",
-d.
-```
-
-Here’s the updated section for your README file, including instructions on how to change the email address for notifications:
-
-md
-Copy code
-
-## Email Notifications
-
-If you want to receive email updates, you need to change the email address in the `email.js` file.
-
-Locate the following line in the `email.js` file:
-
-```javascript
-to: "hasibkazi420@gmail.com",
 
 ```
 
