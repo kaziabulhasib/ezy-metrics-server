@@ -5,7 +5,7 @@ const Campaign = require("../models/Campaign");
 
 const router = express.Router();
 
-// Route to get campaigns data
+// get campaigns data
 router.get("/", (req, res) => {
   fs.readFile("./data/campaigns.json", "utf-8", (err, data) => {
     if (err) {
@@ -16,31 +16,22 @@ router.get("/", (req, res) => {
   });
 });
 
-// Store campaigns in MongoDB only if there is new data
+// Store data in db
 router.post("/store", async (req, res) => {
   try {
-    // Read the campaigns from the JSON file
     const data = fs.readFileSync("./data/campaigns.json", "utf-8");
     const campaigns = JSON.parse(data);
-
-    // Find all existing campaigns in MongoDB
     const existingCampaigns = await Campaign.find({});
-
-    // Filter out campaigns that are already in the database
     const newCampaigns = campaigns.filter(
       (campaign) =>
         !existingCampaigns.some((existing) => existing.name === campaign.name)
     );
 
     if (newCampaigns.length > 0) {
-      // Insert only the new campaigns into MongoDB
       await Campaign.insertMany(newCampaigns);
-
-      // Cost per lead for each campaign
       newCampaigns.forEach(async (campaign) => {
         const costPerLead = campaign.cost / campaign.leads_generated;
         if (costPerLead > 5) {
-          // Email notification for high cost per lead
           await sendEmailNotification(
             "High Cost per Lead Alert",
             `Campaign "${
