@@ -75,9 +75,9 @@ npm run dev
 
 ## Email Notifications
 
-If you want to receive email updates, you need to change the email address in the `email.js` file.
+If you want to receive email updates, you need to change the email address in the `emailService.js` file.
 
-Locate the following line in the `email.js` file:
+Locate the following line in the `emailService.js` file:
 
 ```javascript
 to: "hasibkazi420@gmail.com",
