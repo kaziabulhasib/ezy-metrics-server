@@ -5,10 +5,12 @@ const PDFDocument = require("pdfkit");
 const { sendEmailNotification } = require("./emailService");
 const fs = require("fs");
 const app = express();
+const port = process.env.PORT || 3000;
 
-// Middleware to parse JSON bodies
+// Middleware
 app.use(express.json());
 
+// models
 const Lead = require("./models/Lead");
 const Campaign = require("./models/Campaign");
 
@@ -37,6 +39,6 @@ app.get("/", (req, res) => {
   res.send("ezymetrics is running .......");
 });
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
